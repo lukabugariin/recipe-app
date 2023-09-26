@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -10,13 +11,20 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const headers = {
+      authid: "fY1nROHGBXP8FhBPqnISUIEnNAu2",
+      "Content-Type": "application/json",
+    };
+
     try {
       const response = await axios.post(
         "https://login-zazjbx7nka-uc.a.run.app/",
         {
           email: formData.email,
           password: formData.password,
-        }
+        },
+        { headers }
       );
 
       console.log("User logged in:", response.data);
@@ -26,7 +34,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input

@@ -10,6 +10,8 @@ const Register = () => {
     password: "",
   });
 
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -21,6 +23,16 @@ const Register = () => {
       authid: "fY1nROHGBXP8FhBPqnISUIEnNAu2",
       "Content-Type": "application/json",
     };
+
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordPattern.test(formData.password)) {
+      setError(
+        "Invalid password. Password should contain at least one lowercase letter, uppercase letter, number, and special character. Minimum length is 8 characters."
+      );
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -37,16 +49,21 @@ const Register = () => {
       console.log("User registered:", response.data);
 
       setFormData({ name: "", email: "", password: "" });
+      setError("");
     } catch (error) {
       toast.error("Registration failed. Please try again.", {
         autoClose: 3000,
       });
+
+      setError(
+        "An error occurred during registration. Please try again later."
+      );
       console.error("Registration error:", error);
     }
   };
 
   return (
-    <div>
+    <div className='container'>
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -75,6 +92,7 @@ const Register = () => {
         />
         <button type='submit'>Register</button>
       </form>
+      {error && <p className='error-message'>{error}</p>}{" "}
     </div>
   );
 };
