@@ -8,7 +8,9 @@ const Home = () => {
       <p>Explore and share delicious recipes with the community.</p>
       <div>
         <Link to='/login'>
-          <button>Login</button>
+          <button style={{ marginRight: "150px", marginLeft: "30px" }}>
+            Login
+          </button>
         </Link>
         <Link to='/register'>
           <button>Register</button>
