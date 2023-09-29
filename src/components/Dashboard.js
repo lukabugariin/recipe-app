@@ -8,6 +8,9 @@ const Dashboard = () => {
   const [recipes, setRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recipesPerPage] = useState(4);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -20,6 +23,7 @@ const Dashboard = () => {
           }
         );
         setRecipes(response.data.recipes);
+        setFilteredRecipes(response.data.recipes);
       } catch (error) {
         console.error("Error fetching recipes:", error);
       }
@@ -29,7 +33,22 @@ const Dashboard = () => {
   }, []);
 
   const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    filterRecipes(query);
+  };
+
+  const filterRecipes = (query) => {
+    const filteredRecipes = recipes.filter((recipe) => {
+      const titleMatch = recipe.title.toLowerCase().includes(query);
+      const tagsMatch = recipe.tags.some((tag) =>
+        tag.toLowerCase().includes(query)
+      );
+      return titleMatch || tagsMatch;
+    });
+
+    setCurrentPage(1);
+    setFilteredRecipes(filteredRecipes);
   };
 
   const openRecipeModal = (recipe) => {
@@ -40,9 +59,16 @@ const Dashboard = () => {
     setSelectedRecipe(null);
   };
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = filteredRecipes.slice(
+    indexOfFirstRecipe,
+    indexOfLastRecipe
   );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className='container'>
@@ -53,9 +79,10 @@ const Dashboard = () => {
         <Link to='/create-recipe'>
           <button className=''>Create New Recipe</button>
         </Link>
-        {filteredRecipes.map((recipe) => (
+        {currentRecipes.map((recipe) => (
           <div className='recipe-card' key={recipe.id}>
             <h3>{recipe.title}</h3>
+            <p>Tags: {recipe.tags.join(", ")}</p>
             <button
               className='view-details-button'
               onClick={() => openRecipeModal(recipe)}>
@@ -68,6 +95,22 @@ const Dashboard = () => {
       {selectedRecipe && (
         <RecipeModal recipe={selectedRecipe} onClose={closeRecipeModal} />
       )}
+
+      <div className='recipe-grid'>
+        <button
+          style={{ width: "175px" }}
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}>
+          Previous Page
+        </button>
+        <button
+          style={{ width: "175px" }}
+          onClick={() => paginate(currentPage + 1)}
+          disabled={indexOfLastRecipe >= filteredRecipes.length}>
+          Next Page
+        </button>
+        <p>Page {currentPage}</p>
+      </div>
     </div>
   );
 };

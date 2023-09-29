@@ -4,8 +4,8 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
-import "./App.css";
 import CreateRecipe from "./components/CreateRecipe";
+import "./App.css";
 
 const App = () => {
   return (

@@ -71,7 +71,7 @@ button:hover {
 
 .recipe-grid {
   display: grid;
-  
+  margin-top: 20px;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
@@ -80,7 +80,7 @@ button:hover {
   width: 140px;
   border: 1px solid #ccc;
   padding: 16px;
-  height: 220px; /* Set a fixed height for the recipe card */
+  height: 220px; 
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -45,16 +43,11 @@ const Register = () => {
         { headers }
       );
 
-      toast.success("Registration successful!", { autoClose: 3000 });
       console.log("User registered:", response.data);
 
       setFormData({ name: "", email: "", password: "" });
       setError("");
     } catch (error) {
-      toast.error("Registration failed. Please try again.", {
-        autoClose: 3000,
-      });
-
       setError(
         "An error occurred during registration. Please try again later."
       );
