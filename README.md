@@ -14,6 +14,7 @@ I realized that more and more projects don't use Redux anymore since GraphxQL or
 - **React**: The core of the application, used for building user interfaces.
 - **React Router**: For handling client-side routing and navigation.
 - **Axios**: For making HTTP requests to interact with backend APIs.
+- **Firebase**: For deploying the project.
 
 ## Features
 
@@ -41,3 +42,9 @@ I realized that more and more projects don't use Redux anymore since GraphxQL or
 - Browse, search, and view recipes. Clicking on a recipe allows you to see more details.
 
 - You can create and add new recipes to the dashboard.
+
+## Firebase
+
+Link to deployed project:
+
+https://recipe-app-45909.web.app/
